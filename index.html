@@ -1,0 +1,90 @@
+<head>
+<style>
+    .hit {
+        color:green;
+        font-weight: bold;
+    }
+    .miss {
+        color:red;
+    }
+</style>
+</head>
+<body>
+    <div>
+        <h3>Settings</h3>
+        <p>AMOUNT</p>
+        <input id="amount" type="number"/>
+        <p>ATTACK BONUS</p>
+        <input id="attack-bonus" type="number"/>
+        <p>DICE AMOUNT</p>
+        <input id="dice-amount" type="number"/>
+        <p>DICE TYPE</p>
+        <input id="dice-type" type="number"/>
+        <p>DAMAGE BONUS</p>
+        <input id="damage-bonus" type="number"/>
+        <p>ARMOR CLASS</p>
+        <input id="armor-class" type="number"/>
+        <br><button id="submit" onclick="onClick()">Roll Damage</button>
+        <h3>Total Damage:</h3>
+        <span id="total-damage" id="total-damage">
+            
+        </span>
+        <h4>Hit and Damage breakdown:</h4>
+        <p id="dice-rolls"></p>
+        <p id="damage-rolls"></p>
+    </div>
+</body>
+<script>
+    let onClick = () => {
+        let amount = Number.parseInt(document.getElementById("amount").value);
+        let attackBonus = Number.parseInt(document.getElementById("attack-bonus").value);
+        let diceType = Number.parseInt(document.getElementById("dice-type").value);
+        let diceAmount = Number.parseInt(document.getElementById("dice-amount").value);
+        let damageBonus = Number.parseInt(document.getElementById("damage-bonus").value);
+        let armorClass = Number.parseInt(document.getElementById("armor-class").value);
+
+        let totalDamage = 0
+        let diceRolls = "["
+        let damageRolls = "["
+        for(let i = 0;i<amount;i++){
+            let attackRoll = (Math.round(Math.random() * 20)) + attackBonus
+            if (attackRoll >= armorClass) {
+                diceRolls += `
+                <span class="hit">
+                    ${attackRoll}
+                </span>
+                `;
+                let attackDamage = 0
+                for(let j =0;j<diceAmount;j++){
+                    let diceDamage = (Math.round(Math.random() * diceType) + 1)
+                    attackDamage += diceDamage
+                    console.log(j)
+                }
+                damageRolls += `
+                <span class="hit">
+                    (${attackDamage})
+                </span>
+                `
+                attackDamage += damageBonus
+
+                totalDamage += attackDamage
+            } else {
+                diceRolls += `
+                <span class="miss">
+                    ${attackRoll}
+                </span>
+                `;
+                damageRolls += `
+                <span class="miss">
+                ${0}
+                </span>
+                `
+
+            }
+        }
+        document.getElementById("total-damage").innerHTML = totalDamage;
+        document.getElementById("dice-rolls").innerHTML = diceRolls + "]";
+        document.getElementById("damage-rolls").innerHTML = damageRolls + "]";
+    }
+    
+</script>
